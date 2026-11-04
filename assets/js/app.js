@@ -46,6 +46,100 @@
     return ({ vente: 'Ventes', location: 'Locations', pro: 'Biens professionnels', vendu: 'Biens vendus', loue: 'Biens loués' })[group] || 'Biens';
   }
 
+  /* ---------- Language ---------- */
+  function cookieValue(name) {
+    var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+    if (!m) return '';
+    try { return decodeURIComponent(m[1]); } catch (err) { return m[1]; }
+  }
+  function resolveLang() {
+    var q = param('lang');
+    if (q === 'fr' || q === 'en' || q === 'de') return q;
+    var stored = cookieValue('googtrans');
+    var target = stored ? stored.split('/').pop() : '';
+    return target === 'en' || target === 'de' ? target : 'fr';
+  }
+  var LANG = resolveLang();
+  function applyLangCookie(lang) {
+    var host = window.location.hostname;
+    ['', ';domain=' + host, ';domain=.' + host].forEach(function (domain) {
+      document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/' + domain;
+    });
+    if (lang === 'en' || lang === 'de') {
+      document.cookie = 'googtrans=/fr/' + lang + ';path=/;max-age=31536000';
+    }
+  }
+  var langParam = param('lang');
+  if (langParam === 'fr' || langParam === 'en' || langParam === 'de') {
+    applyLangCookie(LANG);
+    if (window.history && window.history.replaceState) {
+      var cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete('lang');
+      window.history.replaceState(null, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+    }
+  }
+  function langHref(code) {
+    var url = new URL(window.location.href);
+    url.searchParams.set('lang', code);
+    return url.pathname.split('/').pop() + url.search + url.hash;
+  }
+  function langSwitch(extraClass) {
+    return '<div class="lang-switch' + (extraClass ? ' ' + extraClass : '') + '" role="group" aria-label="' + (LANG === 'fr' ? 'Langue du site' : LANG === 'de' ? 'Sprache der Website' : 'Website language') + '">' +
+      ['fr', 'en', 'de'].map(function (code) {
+        return '<a href="' + esc(langHref(code)) + '" data-lang="' + code + '" lang="' + code + '" hreflang="' + code + '"' + (LANG === code ? ' class="is-active" aria-current="true"' : '') + '>' + code.toUpperCase() + '</a>';
+      }).join('') +
+    '</div>';
+  }
+  function initLang() {
+    $$('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var code = link.getAttribute('data-lang');
+        if (code === LANG) return;
+        applyLangCookie(code);
+        window.location.reload();
+      });
+    });
+    if (LANG === 'fr') return;
+    document.documentElement.setAttribute('lang', LANG);
+    if (!document.getElementById('google_translate_element')) {
+      var host = document.createElement('div');
+      host.id = 'google_translate_element';
+      host.className = 'google-translate-host';
+      host.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(host);
+    }
+    window.googleTranslateElementInit = function () {
+      if (!window.google || !window.google.translate) return;
+      new window.google.translate.TranslateElement({
+        pageLanguage: 'fr',
+        includedLanguages: 'en,de',
+        autoDisplay: false
+      }, 'google_translate_element');
+    };
+    var script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.async = true;
+    document.body.appendChild(script);
+  }
+  var retranslateTimer = null;
+  function retranslate() {
+    if (LANG === 'fr') return;
+    clearTimeout(retranslateTimer);
+    retranslateTimer = setTimeout(function () {
+      var attempts = 0;
+      (function run() {
+        var combo = document.querySelector('.goog-te-combo');
+        if (combo) {
+          if (combo.value !== LANG) combo.value = LANG;
+          combo.dispatchEvent(new Event('change', { bubbles: true }));
+          return;
+        }
+        if (attempts++ < 10) setTimeout(run, 400);
+      })();
+    }, 350);
+  }
+
   /* ---------- Icons ---------- */
   var ICONS = {
     'arrow-right': '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
@@ -82,7 +176,8 @@
     'instagram': '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
     'linkedin': '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
     'x': '<path d="M4 4l16 16M20 4 4 20"/>',
-    'quote': '<path d="M10 11H6a1 1 0 0 1-1-1V7a3 3 0 0 1 3-3h1"/><path d="M20 11h-4a1 1 0 0 1-1-1V7a3 3 0 0 1 3-3h1"/><path d="M8 11v4a4 4 0 0 1-4 4M18 11v4a4 4 0 0 1-4 4"/>'
+    'quote': '<path d="M10 11H6a1 1 0 0 1-1-1V7a3 3 0 0 1 3-3h1"/><path d="M20 11h-4a1 1 0 0 1-1-1V7a3 3 0 0 1 3-3h1"/><path d="M8 11v4a4 4 0 0 1-4 4M18 11v4a4 4 0 0 1-4 4"/>',
+    'star': '<path d="m12 3 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.57l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93z"/>'
   };
   function icon(name, size, cls) {
     size = size || 18;
@@ -100,6 +195,7 @@
   function renderHeader() {
     var host = document.getElementById('site-header');
     if (!host) return;
+    var reviews = S.googleReviews || {};
     var socials = (S.socials || []).map(function (s) {
       return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.name) + '">' + socialIcon(s.name) + '</a>';
     }).join('');
@@ -114,13 +210,15 @@
     host.innerHTML =
       '<div class="topbar"><div class="container topbar__inner">' +
         '<div class="topbar__group"><a class="topbar__phone" href="tel:' + esc(S.phoneHref) + '">' + icon('phone', 12) + esc(S.phone) + '</a>' +
-        '<span>' + esc(S.address) + ', ' + esc(S.postal) + ' ' + esc(S.city) + '</span></div>' +
-        '<div class="topbar__group"><a href="mailto:' + esc(S.email) + '">' + esc(S.email) + '</a><div class="topbar__socials">' + socials + '</div></div>' +
+        '<span class="topbar__addr">' + esc(S.address) + ', ' + esc(S.postal) + ' ' + esc(S.city) + '</span></div>' +
+        '<div class="topbar__group"><a class="topbar__mail" href="mailto:' + esc(S.email) + '">' + esc(S.email) + '</a>' +
+        (reviews.url ? '<a class="topbar__reviews" href="' + esc(reviews.url) + '" target="_blank" rel="noopener">' + icon('star', 12) + 'Avis Google</a>' : '') +
+        langSwitch() +
+        '<div class="topbar__socials">' + socials + '</div></div>' +
       '</div></div>' +
       '<nav class="nav" aria-label="Navigation principale"><div class="container nav__inner">' +
-        '<a class="brand" href="index.html" aria-label="SVS Alsace Immobilier, accueil">' +
-          '<span class="brand__mark">SVS</span>' +
-          '<span class="brand__text"><span class="brand__name">SVS Alsace</span><span class="brand__sub">Immobilier · Châtenois</span></span>' +
+        '<a class="brand notranslate" href="index.html" aria-label="SVS Alsace Immobilier, accueil">' +
+          '<img class="brand__logo" src="assets/images/logo.png" alt="SVS Alsace Immobilier" width="221" height="221">' +
         '</a>' +
         '<div class="nav__links">' +
           navLink('acheter.html', 'Ventes', 'acheter') +
@@ -147,9 +245,11 @@
             [['acheter.html', 'Ventes'], ['location.html', 'Locations'], ['professionnels.html', 'Biens pro'], ['vendus.html', 'Biens vendus'], ['loues.html', 'Biens loués'], ['estimation.html', 'Estimation'], ['contact.html', 'Contact']].map(function (l) { return '<a href="' + l[0] + '">' + l[1] + '<span>→</span></a>'; }).join('') +
           '</div>' +
           '<div class="mobile-menu__sub">' + agencyLinks.map(function (l) { return '<a href="' + l[0] + '">' + l[1] + '</a>'; }).join('') + '</div>' +
+          '<div class="mobile-lang"><span>Langue</span>' + langSwitch() + '</div>' +
           '<div class="mobile-menu__foot">' +
             '<a class="btn btn--primary btn--block" href="estimation.html">Estimer mon bien</a>' +
             '<a class="btn btn--ghost btn--block" href="tel:' + esc(S.phoneHref) + '">' + icon('phone', 15) + esc(S.phone) + '</a>' +
+            (reviews.url ? '<a class="btn btn--ghost btn--block" href="' + esc(reviews.url) + '" target="_blank" rel="noopener">' + icon('star', 15) + 'Avis Google</a>' : '') +
           '</div>' +
         '</div>';
     }
@@ -158,6 +258,7 @@
   function renderFooter() {
     var host = document.getElementById('site-footer');
     if (!host) return;
+    var reviews = S.googleReviews || {};
     var socials = (S.socials || []).map(function (s) {
       return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.name) + '">' + socialIcon(s.name) + '</a>';
     }).join('');
@@ -178,11 +279,29 @@
             '<li><a href="equipe.html">Nos conseillers</a></li><li><a href="recommandations.html">Recommandation</a></li><li><a href="recrutement.html">Recrutement</a></li><li><a href="actualites.html">Actualités</a></li><li><a href="liens.html">Nos partenaires</a></li><li><a href="contact.html">Contact</a></li>' +
           '</ul></div>' +
           '<div class="footer-col"><h3>Informations</h3><ul>' +
+            (reviews.url ? '<li><a href="' + esc(reviews.url) + '" target="_blank" rel="noopener">Avis Google</a></li>' : '') +
             '<li><a href="honoraires.html">Nos honoraires</a></li><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="confidentialite.html">Politique RGPD</a></li><li><a href="confidentialite.html#cookies">Cookies</a></li><li><a href="plan-du-site.html">Plan du site</a></li><li><a href="https://www.svsalsaceimmobilier.fr/admin/espace_client.php" target="_blank" rel="noopener">Espace propriétaire</a></li>' +
           '</ul></div>' +
         '</div>' +
-        '<div class="footer-bottom"><span>© 2026 SVS Alsace Immobilier · Tous droits réservés</span><div class="footer-bottom__links"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">RGPD</a><a href="honoraires.html">Honoraires</a><span>Agence membre Interkab</span></div></div>' +
+        '<div class="footer-bottom"><span>© 2026 SVS Alsace Immobilier · Tous droits réservés</span><div class="footer-bottom__links"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">RGPD</a><a href="honoraires.html">Honoraires</a><span>Traductions EN/DE : Google Translate</span><span>Agence membre Interkab</span></div></div>' +
       '</div></footer>';
+  }
+
+  function renderPartners() {
+    var grid = document.getElementById('partner-grid');
+    if (!grid) return;
+    grid.innerHTML = (D.partners || []).map(function (p, i) {
+      var delay = i % 3 === 1 ? ' reveal-delay-1' : i % 3 === 2 ? ' reveal-delay-2' : '';
+      var logo = p.logo
+        ? '<img src="' + esc(p.logo) + '" alt="Logo ' + esc(p.name) + '" loading="lazy">'
+        : esc(p.initials || '');
+      return '<article class="partner-card reveal' + delay + '">' +
+        '<div class="partner-card__logo' + (p.tile === 'dark' ? ' partner-card__logo--dark' : '') + '">' + logo + '</div>' +
+        '<h3>' + esc(p.name) + '</h3>' +
+        '<a class="link-arrow" href="' + esc(p.url) + '" target="_blank" rel="noopener">Voir le site ' + icon('external', 14) + '</a>' +
+      '</article>';
+    }).join('');
+    initReveal();
   }
 
   function initHeader() {
@@ -370,6 +489,7 @@
       grid.innerHTML = list.length ? list.map(propertyCard).join('') : '<div class="empty-state"><h3>Aucun bien ne correspond à ces critères.</h3><p>Élargissez votre recherche ou créez une alerte e-mail pour être prévenu dès qu\'un bien correspond.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn--primary" href="alerte.html">Créer une alerte</a><a class="btn btn--ghost" href="contact.html">Nous contacter</a></div></div>';
       if (countEl) countEl.textContent = list.length;
       initReveal();
+      retranslate();
     }
     [typeSel, citySel, maxInput, minArea, sortSel, refInput].forEach(function (el) {
       if (el) el.addEventListener('input', render);
@@ -645,7 +765,9 @@
   function init() {
     renderHeader();
     renderFooter();
+    renderPartners();
     initHeader();
+    initLang();
     initHome();
     initListingPage();
     initDetail();

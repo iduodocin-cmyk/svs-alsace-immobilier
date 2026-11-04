@@ -37,6 +37,12 @@ window.SVS_DATA = {
    "vendus": 43,
    "loues": 10,
    "reseaux": "8 000"
+  },
+  "googleReviews": {
+   "cid": "5459822615213304715",
+   "url": "https://www.google.com/maps?cid=5459822615213304715",
+   "embed": "https://www.google.com/maps?cid=5459822615213304715&output=embed",
+   "badge": "assets/images/avis.png"
   }
  },
  "team": [
@@ -63,17 +69,20 @@ window.SVS_DATA = {
   {
    "name": "InterKab Agence Membre",
    "url": "https://www.interkab.fr",
-   "initials": "IA"
+   "initials": "IA",
+   "logo": "assets/images/partners/interkab.png"
   },
   {
-   "name": "MEILLEURTAUX SELESTAT",
+   "name": "Meilleurtaux Sélestat",
    "url": "https://www.meilleurtaux.com/a-propos-de-meilleurtaux/toutes-nos-agences-en-france/courtier-selestat.html",
-   "initials": "MS"
+   "initials": "MS",
+   "logo": "assets/images/partners/meilleurtaux.svg"
   },
   {
    "name": "Le Jardin des Fleurs",
    "url": "https://www.lejardindesfleurs.com/fleuristes/slestat",
-   "initials": "LJ"
+   "initials": "LJ",
+   "logo": "assets/images/partners/jardin-des-fleurs.svg"
   },
   {
    "name": "SUTTER & Fils",
@@ -91,9 +100,11 @@ window.SVS_DATA = {
    "initials": "CS"
   },
   {
-   "name": "LA Romanella",
+   "name": "La Romanella",
    "url": "https://www.laromanellachatenois.fr",
-   "initials": "LR"
+   "initials": "LR",
+   "logo": "assets/images/partners/la-romanella.png",
+   "tile": "dark"
   },
   {
    "name": "La Vignette",
@@ -103,7 +114,8 @@ window.SVS_DATA = {
   {
    "name": "Maisons LOONIS",
    "url": "http://www.loonis-maisons.fr/",
-   "initials": "ML"
+   "initials": "ML",
+   "logo": "assets/images/partners/maisons-loonis.jpg"
   },
   {
    "name": "De bon poêle",

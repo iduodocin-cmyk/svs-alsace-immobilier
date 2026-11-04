@@ -28,6 +28,14 @@ Puis ouvrir <http://localhost:8000>.
 
 Les formulaires ouvrent un e-mail prérempli vers `svsalsaceimmobilier@gmail.com` (aucun serveur requis).
 
+## Avis Google
+
+La page d'accueil affiche le badge officiel et une carte Google Maps des avis de l'agence (CID `5459822615213304715`). Aucune note ni aucun nombre d'avis n'est inventé : le contenu provient de Google Maps.
+
+## Langues
+
+Un sélecteur FR / EN / DE est disponible dans la barre supérieure et le menu mobile. Les versions EN et DE utilisent Google Translate (widget chargé uniquement lorsqu'une de ces langues est active, cookie `googtrans`). Le retour au français supprime le cookie.
+
 ## Hébergement
 
 Le site est publié sur GitHub Pages : <https://iduodocin-cmyk.github.io/svs-alsace-immobilier/>
