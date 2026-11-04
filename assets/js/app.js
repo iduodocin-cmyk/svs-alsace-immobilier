@@ -87,10 +87,31 @@
     url.searchParams.set('lang', code);
     return url.pathname.split('/').pop() + url.search + url.hash;
   }
+  var LANG_NAMES = {
+    fr: { fr: 'Français', en: 'French', de: 'Französisch' },
+    en: { fr: 'English', en: 'English', de: 'Englisch' },
+    de: { fr: 'Allemand', en: 'German', de: 'Deutsch' }
+  };
+  var LANG_CODE_LABELS = {
+    fr: { fr: 'FR', en: 'EN', de: 'ALL' },
+    en: { fr: 'FR', en: 'EN', de: 'DE' },
+    de: { fr: 'FR', en: 'EN', de: 'DE' }
+  };
+  var LANG_FLAGS = {
+    fr: '<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#fff"/><rect width="6" height="12" fill="#0055A4"/><rect x="12" width="6" height="12" fill="#EF4135"/></svg>',
+    en: '<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#012169"/><path d="M0 0 18 12M18 0 0 12" stroke="#fff" stroke-width="2.4"/><path d="M0 0 18 12M18 0 0 12" stroke="#C8102E" stroke-width="1.2"/><path d="M9 0v12M0 6h18" stroke="#fff" stroke-width="3.6"/><path d="M9 0v12M0 6h18" stroke="#C8102E" stroke-width="2"/></svg>',
+    de: '<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#000"/><rect y="4" width="18" height="4" fill="#DD0000"/><rect y="8" width="18" height="4" fill="#FFCE00"/></svg>'
+  };
   function langSwitch(extraClass) {
-    return '<div class="lang-switch' + (extraClass ? ' ' + extraClass : '') + '" role="group" aria-label="' + (LANG === 'fr' ? 'Langue du site' : LANG === 'de' ? 'Sprache der Website' : 'Website language') + '">' +
+    var ui = LANG_CODE_LABELS[LANG] ? LANG : 'fr';
+    return '<div class="lang-switch notranslate' + (extraClass ? ' ' + extraClass : '') + '" role="group" aria-label="' + (LANG === 'fr' ? 'Langue du site' : LANG === 'de' ? 'Sprache der Website' : 'Website language') + '">' +
       ['fr', 'en', 'de'].map(function (code) {
-        return '<a href="' + esc(langHref(code)) + '" data-lang="' + code + '" lang="' + code + '" hreflang="' + code + '"' + (LANG === code ? ' class="is-active" aria-current="true"' : '') + '>' + code.toUpperCase() + '</a>';
+        var name = LANG_NAMES[code][ui];
+        return '<a href="' + esc(langHref(code)) + '" data-lang="' + code + '" lang="' + code + '" hreflang="' + code + '" title="' + esc(name) + '" aria-label="' + esc(name) + '"' + (LANG === code ? ' class="is-active" aria-current="true"' : '') + '>' +
+          '<span class="lang-switch__flag" aria-hidden="true">' + LANG_FLAGS[code] + '</span>' +
+          '<span class="lang-switch__code">' + LANG_CODE_LABELS[ui][code] + '</span>' +
+          '<span class="lang-switch__name" aria-hidden="true">' + esc(name) + '</span>' +
+        '</a>';
       }).join('') +
     '</div>';
   }
@@ -100,8 +121,11 @@
         e.preventDefault();
         var code = link.getAttribute('data-lang');
         if (code === LANG) return;
-        applyLangCookie(code);
-        window.location.reload();
+        link.classList.add('is-pressed');
+        setTimeout(function () {
+          applyLangCookie(code);
+          window.location.reload();
+        }, 160);
       });
     });
     if (LANG === 'fr') return;
