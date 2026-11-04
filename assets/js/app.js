@@ -18,6 +18,10 @@
     tmp.innerHTML = value || '';
     return (tmp.textContent || '').replace(/\s+/g, ' ').trim();
   }
+  function reviewScore(reviews) {
+    if (reviews.ratingLabel) return reviews.ratingLabel;
+    return reviews.rating ? String(reviews.rating).replace('.', ',') : '';
+  }
   function fmtArea(value) {
     if (!value) return '';
     return String(value).replace('.', ',') + ' m²';
@@ -196,6 +200,7 @@
     var host = document.getElementById('site-header');
     if (!host) return;
     var reviews = S.googleReviews || {};
+    var score = reviewScore(reviews);
     var socials = (S.socials || []).map(function (s) {
       return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.name) + '">' + socialIcon(s.name) + '</a>';
     }).join('');
@@ -212,7 +217,7 @@
         '<div class="topbar__group"><a class="topbar__phone" href="tel:' + esc(S.phoneHref) + '">' + icon('phone', 12) + esc(S.phone) + '</a>' +
         '<span class="topbar__addr">' + esc(S.address) + ', ' + esc(S.postal) + ' ' + esc(S.city) + '</span></div>' +
         '<div class="topbar__group"><a class="topbar__mail" href="mailto:' + esc(S.email) + '">' + esc(S.email) + '</a>' +
-        (reviews.url ? '<a class="topbar__reviews" href="' + esc(reviews.url) + '" target="_blank" rel="noopener">' + icon('star', 12) + 'Avis Google</a>' : '') +
+        (reviews.url ? '<a class="topbar__reviews" href="' + esc(reviews.url) + '" target="_blank" rel="noopener">' + icon('star', 12) + (score ? '<span class="topbar__reviews-score">' + esc(score) + '/5</span>' : '') + 'Avis Google</a>' : '') +
         langSwitch() +
         '<div class="topbar__socials">' + socials + '</div></div>' +
       '</div></div>' +
@@ -249,7 +254,7 @@
           '<div class="mobile-menu__foot">' +
             '<a class="btn btn--primary btn--block" href="estimation.html">Estimer mon bien</a>' +
             '<a class="btn btn--ghost btn--block" href="tel:' + esc(S.phoneHref) + '">' + icon('phone', 15) + esc(S.phone) + '</a>' +
-            (reviews.url ? '<a class="btn btn--ghost btn--block" href="' + esc(reviews.url) + '" target="_blank" rel="noopener">' + icon('star', 15) + 'Avis Google</a>' : '') +
+            (reviews.url ? '<a class="btn btn--ghost btn--block" href="' + esc(reviews.url) + '" target="_blank" rel="noopener">' + icon('star', 15) + (score ? '<span class="mobile-review-stars">★★★★★</span> ' + esc(score) + '/5 · ' : '') + 'Avis Google</a>' : '') +
           '</div>' +
         '</div>';
     }
@@ -259,6 +264,7 @@
     var host = document.getElementById('site-footer');
     if (!host) return;
     var reviews = S.googleReviews || {};
+    var score = reviewScore(reviews);
     var socials = (S.socials || []).map(function (s) {
       return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.name) + '">' + socialIcon(s.name) + '</a>';
     }).join('');
@@ -279,7 +285,7 @@
             '<li><a href="equipe.html">Nos conseillers</a></li><li><a href="recommandations.html">Recommandation</a></li><li><a href="recrutement.html">Recrutement</a></li><li><a href="actualites.html">Actualités</a></li><li><a href="liens.html">Nos partenaires</a></li><li><a href="contact.html">Contact</a></li>' +
           '</ul></div>' +
           '<div class="footer-col"><h3>Informations</h3><ul>' +
-            (reviews.url ? '<li><a href="' + esc(reviews.url) + '" target="_blank" rel="noopener">Avis Google</a></li>' : '') +
+            (reviews.url ? '<li><a href="' + esc(reviews.url) + '" target="_blank" rel="noopener">' + (score ? esc(score) + '/5 · ' : '') + 'Avis Google</a></li>' : '') +
             '<li><a href="honoraires.html">Nos honoraires</a></li><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="confidentialite.html">Politique RGPD</a></li><li><a href="confidentialite.html#cookies">Cookies</a></li><li><a href="plan-du-site.html">Plan du site</a></li><li><a href="https://www.svsalsaceimmobilier.fr/admin/espace_client.php" target="_blank" rel="noopener">Espace propriétaire</a></li>' +
           '</ul></div>' +
         '</div>' +

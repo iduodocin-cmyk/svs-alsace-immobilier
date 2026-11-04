@@ -42,7 +42,9 @@ window.SVS_DATA = {
    "cid": "5459822615213304715",
    "url": "https://www.google.com/maps?cid=5459822615213304715",
    "embed": "https://www.google.com/maps?cid=5459822615213304715&output=embed",
-   "badge": "assets/images/avis.png"
+   "badge": "assets/images/avis.png",
+   "rating": 4.9,
+   "ratingLabel": "4,9"
   }
  },
  "team": [
