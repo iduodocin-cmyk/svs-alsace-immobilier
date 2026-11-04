@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biens à vendre en Alsace et en Lorraine | SVS Alsace Immobilier</title>
+  <meta name="description" content="Découvrez les maisons, appartements, immeubles et terrains à vendre sélectionnés par SVS Alsace Immobilier à Châtenois et dans le Grand Est.">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="acheter">
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <div id="site-header" class="site-header"></div>
+  <div id="mobileMenu" class="mobile-menu"></div>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Fil d'Ariane">
+          <a href="index.html">Accueil</a><span>/</span><span>Ventes</span>
+        </nav>
+        <div class="page-hero__grid">
+          <div class="page-hero__copy">
+            <span class="eyebrow">Acheter · Grand Est</span>
+            <h1 class="display-lg">Nos biens <span class="italic">à vendre</span>.</h1>
+            <p class="lede">Maisons de caractère, appartements lumineux, immeubles de rapport ou terrains à bâtir : parcourez notre sélection en Alsace et en Lorraine, et laissez-vous guider par nos conseillers.</p>
+          </div>
+          <div class="page-hero__aside">
+            <div class="page-hero__count">9<span>biens à vendre</span></div>
+          </div>
+        </div>
+        <div class="property-tabs" aria-label="Types de biens">
+          <a class="property-tab is-active" href="acheter.html">Ventes</a>
+          <a class="property-tab" href="location.html">Locations</a>
+          <a class="property-tab" href="professionnels.html">Biens pro</a>
+          <a class="property-tab" href="vendus.html">Biens vendus</a>
+          <a class="property-tab" href="loues.html">Biens loués</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container" id="listing-root" data-group="vente">
+        <div class="filters">
+          <div class="filter-grid">
+            <div class="filter-field">
+              <label for="filter-type">Type de bien</label>
+              <select id="filter-type"><option value="">Tous les types</option></select>
+            </div>
+            <div class="filter-field">
+              <label for="filter-city">Ville</label>
+              <select id="filter-city"><option value="">Toutes les villes</option></select>
+            </div>
+            <div class="filter-field">
+              <label for="filter-max">Budget max (€)</label>
+              <input id="filter-max" type="number" min="0" step="1000" inputmode="numeric" placeholder="Sans limite">
+            </div>
+            <div class="filter-field">
+              <label for="filter-area">Surface min (m²)</label>
+              <input id="filter-area" type="number" min="0" step="5" inputmode="numeric" placeholder="Toutes">
+            </div>
+            <div class="filter-field">
+              <label for="filter-sort">Trier par</label>
+              <select id="filter-sort">
+                <option value="default">Les plus récentes</option>
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+                <option value="area-desc">Surface décroissante</option>
+              </select>
+            </div>
+            <button class="filter-reset" type="button" id="filter-reset">Réinitialiser</button>
+          </div>
+        </div>
+
+        <div class="results-bar">
+          <p class="results-bar__count"><strong id="result-count">0</strong> annonce(s) trouvée(s) selon vos critères</p>
+          <div class="results-bar__search">
+            <label class="sr-only" for="filter-ref">Rechercher par référence</label>
+            <input id="filter-ref" type="search" placeholder="Rechercher par référence" autocomplete="off">
+          </div>
+          <a class="link-arrow" href="alerte.html">Créer une alerte e-mail <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+        </div>
+
+        <div id="listing-grid" class="property-grid listing-grid-wrap"></div>
+
+        <div class="listing-cta">
+          <div>
+            <h3>Vous ne trouvez pas le bien de vos rêves ?</h3>
+            <p>Confiez-nous votre recherche : grâce au réseau Interkab, nous pouvons activer plus de 8 000 agences pour vous.</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn btn--light" href="alerte.html">Créer une alerte</a>
+            <a class="btn btn--outline-light" href="contact.html">Nous confier votre recherche</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Créer une alerte e-mail immobilière | SVS Alsace Immobilier</title>
+  <meta name="description" content="Créez votre alerte e-mail personnalisée et recevez les biens correspondant à votre recherche en Alsace et en Lorraine.">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="alerte">
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <div id="site-header" class="site-header"></div>
+  <div id="mobileMenu" class="mobile-menu"></div>
+
+  <main id="main">
+    <header class="page-hero page-hero--sand">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Fil d'Ariane">
+          <a href="index.html">Accueil</a><span>/</span><span>L'agence</span><span>/</span><span>Alerte e-mail</span>
+        </nav>
+        <div class="page-hero__grid">
+          <div class="page-hero__copy">
+            <span class="eyebrow">Alerte e-mail</span>
+            <h1 class="display-lg">Ne manquez plus <span class="italic">aucun bien</span>.</h1>
+            <p class="lede">Vous n'avez pas trouvé le bien immobilier que vous cherchiez ? Créez votre alerte e-mail en renseignant les caractéristiques rêvées de votre demeure. Il ne vous reste plus qu'à attendre tranquillement que votre futur chez-vous soit disponible.</p>
+          </div>
+          <div class="page-hero__aside">
+            <div class="page-hero__count">24 h<span>délai de réponse</span></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container content-grid">
+        <div>
+          <div class="form-card">
+            <span class="eyebrow">Mes critères de recherche</span>
+            <h2 class="display-sm" style="margin-top:12px">Décrivez votre bien idéal</h2>
+            <p class="lede">Les champs marqués d'un astérisque sont obligatoires. Nous vous contactons pour confirmer votre alerte.</p>
+            <form class="mailto-form" data-subject="Création d'une alerte e-mail" data-context="Alerte e-mail créée depuis le site.">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="a-offre">Type d'offre *</label>
+                  <select id="a-offre" name="Type d'offre" required>
+                    <option value="">Sélectionnez</option>
+                    <option>Location</option>
+                    <option>Vente</option>
+                    <option>Vente immobilier professionnel</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="a-type">Type de bien</label>
+                  <select id="a-type" name="Type de bien">
+                    <option value="">Tous les biens</option>
+                    <option>Appartement</option><option>Duplex</option><option>Immeuble</option><option>Maison</option><option>Terrain</option><option>Terrain à bâtir</option>
+                  </select>
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="a-localisation">Localisation</label>
+                  <input id="a-localisation" name="Localisation" placeholder="Ville, code postal ou secteur recherché">
+                </div>
+                <div class="form-field">
+                  <label for="a-rayon">À proximité</label>
+                  <select id="a-rayon" name="Rayon">
+                    <option>5 km</option><option>10 km</option><option>15 km</option><option>20 km</option><option>25 km</option><option>30 km</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="a-chambres">Chambres minimum</label>
+                  <input id="a-chambres" name="Chambres minimum" type="number" min="0" step="1" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                  <label for="a-prix-min">Prix minimum (€)</label>
+                  <input id="a-prix-min" name="Prix minimum" type="number" min="0" step="1000" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                  <label for="a-prix-max">Prix maximum (€)</label>
+                  <input id="a-prix-max" name="Prix maximum" type="number" min="0" step="1000" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                  <label for="a-surface-min">Surface minimum (m²)</label>
+                  <input id="a-surface-min" name="Surface minimum" type="number" min="0" step="5" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                  <label for="a-surface-max">Surface maximum (m²)</label>
+                  <input id="a-surface-max" name="Surface maximum" type="number" min="0" step="5" inputmode="numeric">
+                </div>
+                <div class="form-field form-field--full">
+                  <span class="form-label">Extérieur</span>
+                  <div class="radio-pills">
+                    <label><input type="checkbox" name="Extérieur" value="Balcon"> Balcon</label>
+                    <label><input type="checkbox" name="Extérieur" value="Terrasse"> Terrasse</label>
+                    <label><input type="checkbox" name="Extérieur" value="Jardin"> Jardin</label>
+                  </div>
+                </div>
+                <div class="form-field form-field--full">
+                  <span class="form-label">Particularités</span>
+                  <div class="radio-pills">
+                    <label><input type="checkbox" name="Particularités" value="Investissement"> Investissement</label>
+                    <label><input type="checkbox" name="Particularités" value="Loué"> Loué</label>
+                    <label><input type="checkbox" name="Particularités" value="Prestige"> Prestige</label>
+                    <label><input type="checkbox" name="Particularités" value="Primo accédant"> Primo accédant</label>
+                  </div>
+                </div>
+
+                <div class="form-section-title">Je renseigne mes coordonnées</div>
+                <div class="form-field">
+                  <label for="a-nom">Nom *</label>
+                  <input id="a-nom" name="Nom" required autocomplete="family-name">
+                </div>
+                <div class="form-field">
+                  <label for="a-prenom">Prénom *</label>
+                  <input id="a-prenom" name="Prénom" required autocomplete="given-name">
+                </div>
+                <div class="form-field">
+                  <label for="a-email">E-mail *</label>
+                  <input id="a-email" name="E-mail" type="email" required autocomplete="email">
+                </div>
+                <div class="form-field">
+                  <label for="a-tel">Téléphone</label>
+                  <input id="a-tel" name="Téléphone" type="tel" autocomplete="tel">
+                </div>
+              </div>
+              <label class="form-consent"><input type="checkbox" required> J'ai pris connaissance de la <a href="confidentialite.html">politique de confidentialité</a> et j'accepte d'être contacté(e) au sujet de mon alerte. *</label>
+              <div class="form-actions">
+                <button class="btn btn--primary" type="submit">Créer mon alerte <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
+                <span class="form-note">* Champs obligatoires</span>
+              </div>
+              <div class="form-status" role="status"></div>
+            </form>
+          </div>
+        </div>
+
+        <aside class="content-aside">
+          <div class="aside-card">
+            <h3>Comment ça fonctionne ?</h3>
+            <div class="aside-card__list">
+              <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg> Vous décrivez vos critères</span>
+              <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg> Nous enregistrons votre recherche</span>
+              <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg> Vous êtes prévenu(e) dès qu'un bien correspond</span>
+            </div>
+          </div>
+          <div class="aside-card aside-card--dark">
+            <h3>Une recherche urgente ?</h3>
+            <p>Appelez-nous : nous activons aussi notre réseau d'agences partenaires pour trouver plus vite.</p>
+            <a class="btn btn--light btn--block" href="tel:+33757778656">07 57 77 86 56</a>
+          </div>
+          <div class="aside-card">
+            <h3>Déjà une sélection ?</h3>
+            <p>Parcourez les biens actuellement disponibles avant de créer votre alerte.</p>
+            <a class="btn btn--ghost btn--block" href="acheter.html">Voir les biens à vendre</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
